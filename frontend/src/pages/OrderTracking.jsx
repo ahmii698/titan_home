@@ -1,0 +1,265 @@
+import { useState } from 'react';
+import Navbar from '../components/common/Navbar';
+import Footer from '../components/common/Footer';
+
+function OrderTracking() {
+  const [orderId, setOrderId] = useState('');
+  const [tracked, setTracked] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleTrack = (e) => {
+    e.preventDefault();
+    if (orderId.trim()) {
+      setIsLoading(true);
+      setTimeout(() => {
+        setTracked({
+          id: orderId,
+          status: 'shipped',
+          statusText: 'Your order has been shipped',
+          date: 'Dec 20, 2024',
+          estimatedDelivery: 'Dec 22, 2024',
+          items: 2,
+          total: 498,
+          shippingAddress: '123 Luxury Avenue, New York, NY 10001',
+          paymentMethod: 'Credit Card •••• 4242',
+          steps: [
+            { name: 'Order Placed', completed: true, date: 'Dec 18, 2024', time: '10:30 AM' },
+            { name: 'Processing', completed: true, date: 'Dec 19, 2024', time: '2:15 PM' },
+            { name: 'Shipped', completed: true, date: 'Dec 20, 2024', time: '9:45 AM' },
+            { name: 'Delivered', completed: false, date: 'Expected Dec 22, 2024', time: '' }
+          ]
+        });
+        setIsLoading(false);
+      }, 1000);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch(status) {
+      case 'delivered': return 'text-green-500';
+      case 'shipped': return 'text-blue-500';
+      case 'processing': return 'text-yellow-500';
+      default: return 'text-white';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-black">
+      <Navbar />
+
+      {/* Hero Section */}
+      <section className="relative h-[40vh] flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0">
+          <img
+            src="/images/15.webp"
+            alt="Track Order Hero"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-black/60" />
+        </div>
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-wider text-white">
+            Track Order
+          </h1>
+          <p className="text-xl text-white/80 max-w-2xl mx-auto">
+            Follow your package every step of the way
+          </p>
+          <div className="w-24 h-px bg-white/20 mx-auto mt-8" />
+        </div>
+      </section>
+
+      {/* Tracking Form Section */}
+      <section className="py-16 px-4 max-w-4xl mx-auto">
+        <div className="bg-black rounded-2xl border border-white/10 p-6 md:p-8">
+          <div className="text-center mb-6">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Track Your Order</h2>
+            <p className="text-white/50 text-sm">Enter your order ID to get real-time updates</p>
+          </div>
+
+          <form onSubmit={handleTrack} className="mb-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <input
+                type="text"
+                placeholder="Enter your order ID (e.g., LXE-12345)"
+                value={orderId}
+                onChange={(e) => setOrderId(e.target.value)}
+                className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-white placeholder-white/40 focus:outline-none focus:border-white/50 transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed min-w-[120px]"
+              >
+                {isLoading ? 'Tracking...' : 'Track Order'}
+              </button>
+            </div>
+          </form>
+          <p className="text-white/30 text-xs text-center">
+            Order ID can be found in your confirmation email
+          </p>
+        </div>
+      </section>
+
+      {/* Order Details */}
+      {tracked && (
+        <section className="py-8 px-4 max-w-4xl mx-auto animate-fadeInUp">
+          {/* Status Card */}
+          <div className="bg-gradient-to-r from-white/10 to-white/5 rounded-2xl p-6 mb-6 border border-white/10">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <p className="text-white/40 text-sm">ORDER STATUS</p>
+                <h3 className={`text-2xl font-bold ${getStatusColor(tracked.status)}`}>
+                  {tracked.status.charAt(0).toUpperCase() + tracked.status.slice(1)}
+                </h3>
+                <p className="text-white/60 text-sm mt-1">{tracked.statusText}</p>
+              </div>
+              <div className="text-right">
+                <p className="text-white/40 text-sm">ESTIMATED DELIVERY</p>
+                <p className="text-white font-semibold text-lg">{tracked.estimatedDelivery}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Timeline */}
+          <div className="bg-black rounded-2xl border border-white/10 p-6 md:p-8 mb-6">
+            <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3M12 2a10 10 0 100 20 10 10 0 000-20z" />
+              </svg>
+              Order Timeline
+            </h3>
+            <div className="relative">
+              <div className="absolute left-5 top-0 bottom-0 w-px bg-white/10" />
+              <div className="space-y-8">
+                {tracked.steps.map((step, index) => (
+                  <div key={step.name} className="relative flex items-start gap-4">
+                    <div className={`w-4 h-4 rounded-full mt-1 ${step.completed ? 'bg-green-500' : 'bg-white/20'} z-10 ring-4 ring-black`} />
+                    <div className="flex-1">
+                      <div className="flex flex-wrap justify-between items-start gap-2">
+                        <div>
+                          <p className={`font-semibold ${step.completed ? 'text-white' : 'text-white/40'}`}>
+                            {step.name}
+                          </p>
+                          {step.date && (
+                            <p className="text-white/40 text-sm">{step.date}</p>
+                          )}
+                        </div>
+                        {step.time && (
+                          <p className="text-white/40 text-sm">{step.time}</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Order Info Grid */}
+          <div className="grid md:grid-cols-2 gap-6 mb-6">
+            <div className="bg-black rounded-xl border border-white/10 p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <svg className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+                <h4 className="text-white font-semibold">Order Summary</h4>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-white/50">Order ID</span>
+                  <span className="text-white/80">{tracked.id}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Items</span>
+                  <span className="text-white/80">{tracked.items} products</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Total Amount</span>
+                  <span className="text-white font-semibold">${tracked.total}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Placed On</span>
+                  <span className="text-white/80">{tracked.date}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-black rounded-xl border border-white/10 p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <svg className="w-5 h-5 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <h4 className="text-white font-semibold">Shipping & Payment</h4>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-white/50">Shipping Address</span>
+                  <span className="text-white/80 text-right">{tracked.shippingAddress}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-white/50">Payment Method</span>
+                  <span className="text-white/80">{tracked.paymentMethod}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Help Section */}
+          <div className="bg-white/5 rounded-xl p-6 text-center">
+            <p className="text-white/60 mb-3">Need help with your order?</p>
+            <div className="flex justify-center gap-4">
+              <a href="/contact" className="text-white hover:text-white/80 text-sm underline">Contact Support</a>
+              <span className="text-white/30">|</span>
+              <a href="/faq" className="text-white hover:text-white/80 text-sm underline">FAQ</a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Help Section (when no order tracked) */}
+      {!tracked && !isLoading && (
+        <section className="py-12 px-4 max-w-4xl mx-auto">
+          <div className="text-center">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white/5 flex items-center justify-center">
+              <svg className="w-10 h-10 text-white/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-xl font-semibold text-white mb-2">No Order Tracked Yet</h3>
+            <p className="text-white/50 text-sm max-w-md mx-auto">
+              Enter your order ID above to see the real-time status of your shipment
+            </p>
+          </div>
+        </section>
+      )}
+
+      {/* Newsletter Section */}
+      <section className="py-20 px-4 border-t border-white/10 bg-black">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Stay Updated</h2>
+          <p className="text-white/50 mb-8">Subscribe for exclusive offers and order updates</p>
+          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-white placeholder-white/40 focus:outline-none focus:border-white/50"
+            />
+            <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <Footer />
+    </div>
+  );
+}
+
+export default OrderTracking;
