@@ -240,22 +240,22 @@ function OrderTracking() {
       )}
 
       {/* Newsletter Section */}
-      <section className="py-20 px-4 border-t border-white/10 bg-black">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Stay Updated</h2>
-          <p className="text-white/50 mb-8">Subscribe for exclusive offers and order updates</p>
-          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <input
-              type="email"
-              placeholder="Your email address"
-              className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-white placeholder-white/40 focus:outline-none focus:border-white/50"
-            />
-            <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
-              Subscribe
-            </button>
-          </form>
-        </div>
-      </section>
+      <section className="py-20 px-4 border-t border-white/10">
+  <div className="max-w-3xl mx-auto text-center">
+    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join Our Newsletter</h2>
+    <p className="text-white/50 mb-8">Subscribe to get exclusive offers and updates</p>
+    <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+      <input
+        type="email"
+        placeholder="Your email address"
+        className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-black placeholder-gray-500 focus:outline-none focus:border-white/50"
+      />
+      <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
+        Subscribe
+      </button>
+    </form>
+  </div>
+</section>
 
       <Footer />
     </div>
