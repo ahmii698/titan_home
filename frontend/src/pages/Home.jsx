@@ -151,10 +151,11 @@ const bannerImages = [
 function Home() {
   const [currentBanner, setCurrentBanner] = useState(0);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentBanner((prev) => (prev + 1) % bannerImages.length);
+      nextBanner();
     }, 5000);
     return () => clearInterval(interval);
   }, []);
@@ -167,44 +168,60 @@ function Home() {
   }, []);
 
   const nextBanner = () => {
-    setCurrentBanner((prev) => (prev + 1) % bannerImages.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentBanner((prev) => (prev + 1) % bannerImages.length);
+      setIsTransitioning(false);
+    }, 300);
   };
 
   const prevBanner = () => {
-    setCurrentBanner((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentBanner((prev) => (prev - 1 + bannerImages.length) % bannerImages.length);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const goToBanner = (index) => {
+    if (isTransitioning || index === currentBanner) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentBanner(index);
+      setIsTransitioning(false);
+    }, 300);
   };
 
   return (
     <div className="min-h-screen bg-black">
       <Navbar />
 
-      {/* Hero Slider - IMAGES PROPERLY FIT */}
+      {/* Hero Slider - FULL SCREEN COVER WITH MIN ZOOM */}
       <section className="relative h-screen overflow-hidden">
         {bannerImages.map((banner, index) => (
           <div
             key={banner.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ${
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
               index === currentBanner ? 'opacity-100 z-10' : 'opacity-0 z-0'
             }`}
           >
-            {/* Dark overlay */}
-            <div className="absolute inset-0 bg-black/50 z-10" />
+            {/* Dark overlay - lighter for better visibility */}
+            <div className="absolute inset-0 bg-black/40 z-10" />
             
-            <img
-              src={banner.image}
-              alt={banner.title}
-              className="absolute inset-0 w-full h-full object-cover object-center"
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'center',
-                width: '100%',
-                height: '100%'
-              }}
-            />
+            {/* Image - full screen cover with center positioning */}
+            <div className="absolute inset-0">
+              <img
+                src={banner.image}
+                alt={banner.title}
+                className="w-full h-full object-cover object-center scale-105"
+              />
+            </div>
             
-            {/* TEXT WITH INLINE CSS - PERMANENT WHITE */}
             <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4">
               <h1 
+                className="animate-fadeInUp"
                 style={{ 
                   color: '#FFFFFF', 
                   textShadow: '0 2px 10px rgba(0,0,0,0.5)',
@@ -217,6 +234,7 @@ function Home() {
                 {banner.title}
               </h1>
               <p 
+                className="animate-fadeInUp animation-delay-200"
                 style={{ 
                   color: '#FFFFFF', 
                   textShadow: '0 1px 5px rgba(0,0,0,0.5)',
@@ -228,6 +246,7 @@ function Home() {
                 {banner.subtitle}
               </p>
               <button 
+                className="animate-fadeInUp animation-delay-400 shadow-lg hover:scale-105 transition-all duration-300"
                 style={{
                   backgroundColor: '#FFFFFF',
                   color: '#000000',
@@ -247,7 +266,6 @@ function Home() {
                   e.target.style.backgroundColor = '#FFFFFF';
                   e.target.style.transform = 'scale(1)';
                 }}
-                className="shadow-lg"
               >
                 {banner.buttonText}
               </button>
@@ -257,7 +275,7 @@ function Home() {
 
         <button
           onClick={prevBanner}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center transition-all"
+          className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -265,7 +283,7 @@ function Home() {
         </button>
         <button
           onClick={nextBanner}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center transition-all"
+          className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-black/30 hover:bg-black/50 backdrop-blur-sm flex items-center justify-center transition-all duration-300 hover:scale-110"
         >
           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -276,11 +294,11 @@ function Home() {
           {bannerImages.map((_, index) => (
             <button
               key={index}
-              onClick={() => setCurrentBanner(index)}
-              className={`transition-all duration-300 ${
+              onClick={() => goToBanner(index)}
+              className={`transition-all duration-500 ease-out ${
                 index === currentBanner 
                   ? 'w-10 h-1 bg-white rounded-full' 
-                  : 'w-2 h-1 bg-white/50 rounded-full'
+                  : 'w-2 h-1 bg-white/40 rounded-full hover:bg-white/60 hover:w-4'
               }`}
             />
           ))}
@@ -301,19 +319,13 @@ function Home() {
         </div>
       </section>
 
-      {/* Mid Banner - WITH PROPER IMAGE FIT */}
+      {/* Mid Banner */}
       <section className="relative py-24 px-4 overflow-hidden min-h-[500px] flex items-center justify-center">
         <div className="absolute inset-0">
           <img
             src="/images/18.jpg"
             alt="Mid Banner"
-            className="absolute inset-0 w-full h-full object-cover object-center"
-            style={{
-              objectFit: 'cover',
-              objectPosition: 'center',
-              width: '100%',
-              height: '100%'
-            }}
+            className="w-full h-full object-cover object-center scale-105"
           />
           <div className="absolute inset-0 bg-black/60" />
         </div>
@@ -356,7 +368,7 @@ function Home() {
           {testimonials.map((testimonial, index) => (
             <div
               key={testimonial.id}
-              className={`transition-all duration-500 ${
+              className={`transition-all duration-700 ease-in-out ${
                 index === currentTestimonial ? 'opacity-100 block' : 'hidden opacity-0'
               }`}
             >
@@ -393,10 +405,10 @@ function Home() {
               <button
                 key={index}
                 onClick={() => setCurrentTestimonial(index)}
-                className={`transition-all duration-300 ${
+                className={`transition-all duration-500 ease-out ${
                   index === currentTestimonial 
                     ? 'w-8 h-1 bg-white rounded-full' 
-                    : 'w-6 h-1 bg-white/30 rounded-full'
+                    : 'w-6 h-1 bg-white/30 rounded-full hover:bg-white/50 hover:w-7'
                 }`}
               />
             ))}
@@ -407,8 +419,8 @@ function Home() {
       {/* Features */}
       <section className="py-20 px-4 border-t border-white/10">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+          <div className="text-center group">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
               </svg>
@@ -416,8 +428,8 @@ function Home() {
             <h3 className="text-white font-semibold mb-2">Free Shipping</h3>
             <p className="text-white/40 text-sm">On orders over $500</p>
           </div>
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+          <div className="text-center group">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
               </svg>
@@ -425,8 +437,8 @@ function Home() {
             <h3 className="text-white font-semibold mb-2">Secure Payment</h3>
             <p className="text-white/40 text-sm">100% secure transactions</p>
           </div>
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+          <div className="text-center group">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
@@ -434,8 +446,8 @@ function Home() {
             <h3 className="text-white font-semibold mb-2">Easy Returns</h3>
             <p className="text-white/40 text-sm">30-day return policy</p>
           </div>
-          <div className="text-center">
-            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center">
+          <div className="text-center group">
+            <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/10 flex items-center justify-center group-hover:scale-110 transition-all duration-300">
               <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 10h18M6 14h12M12 4v16" />
               </svg>
@@ -447,22 +459,23 @@ function Home() {
       </section>
 
       {/* Newsletter */}
-<section className="py-20 px-4 border-t border-white/10">
-  <div className="max-w-3xl mx-auto text-center">
-    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join Our Newsletter</h2>
-    <p className="text-white/50 mb-8">Subscribe to get exclusive offers and updates</p>
-    <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-      <input
-        type="email"
-        placeholder="Your email address"
-        className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-black placeholder-gray-500 focus:outline-none focus:border-white/50"
-      />
-      <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
-        Subscribe
-      </button>
-    </form>
-  </div>
-</section>
+      <section className="py-20 px-4 border-t border-white/10">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join Our Newsletter</h2>
+          <p className="text-white/50 mb-8">Subscribe to get exclusive offers and updates</p>
+          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-black placeholder-gray-500 focus:outline-none focus:border-white/50 transition-all duration-300"
+            />
+            <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all duration-300 hover:scale-105">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );

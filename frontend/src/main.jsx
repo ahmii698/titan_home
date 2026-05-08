@@ -7,6 +7,9 @@ import Shop from './pages/Shop';
 import Blog from './pages/Blog';
 import Contact from './pages/Contact';
 import OrderTracking from './pages/OrderTracking';
+import Auth from './pages/Auth';
+import Cart from './pages/Cart';
+import Wishlist from './pages/Wishlist';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -19,6 +22,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/track-order" element={<OrderTracking />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/wishlist" element={<Wishlist />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

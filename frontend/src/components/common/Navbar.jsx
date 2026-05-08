@@ -31,6 +31,9 @@ function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Shop', path: '/shop' },
+    { name: 'Wishlist', path: '/wishlist' },
+    { name: 'Cart', path: '/cart' },
+    { name: 'Login', path: '/auth' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
     { name: 'Track Order', path: '/track-order' },
@@ -92,18 +95,26 @@ function Navbar() {
               )}
             </button>
 
-            {/* Cart Icon - Simple black badge */}
-            <button className="relative">
+            {/* Cart Icon */}
+            <Link to="/cart" className="relative">
               <svg className={`w-6 h-6 transition-colors duration-300 ${
                 isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900'
               }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-1.5 6M17 13l1.5 6M9 21h6M12 15v6" />
               </svg>
-              {/* Badge - Always black background, white text */}
               <span className="absolute -top-2 -right-2 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center bg-black text-white shadow-sm">
                 0
               </span>
-            </button>
+            </Link>
+
+            {/* Wishlist Icon */}
+            <Link to="/wishlist" className="relative">
+              <svg className={`w-6 h-6 transition-colors duration-300 ${
+                isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </Link>
 
             {/* Mobile menu button */}
             <button
