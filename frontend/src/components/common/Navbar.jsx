@@ -17,11 +17,9 @@ function Navbar() {
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);
     if (!isDarkMode) {
-      // Switch to dark mode
       document.documentElement.classList.remove('light-mode');
       localStorage.setItem('theme', 'dark');
     } else {
-      // Switch to light mode
       document.documentElement.classList.add('light-mode');
       localStorage.setItem('theme', 'light');
     }
@@ -31,9 +29,6 @@ function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Shop', path: '/shop' },
-    { name: 'Wishlist', path: '/wishlist' },
-    { name: 'Cart', path: '/cart' },
-    { name: 'Login', path: '/auth' },
     { name: 'Blog', path: '/blog' },
     { name: 'Contact', path: '/contact' },
     { name: 'Track Order', path: '/track-order' },
@@ -95,6 +90,24 @@ function Navbar() {
               )}
             </button>
 
+            {/* Login/User Icon */}
+            <Link to="/auth" className="relative">
+              <svg className={`w-6 h-6 transition-colors duration-300 ${
+                isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </Link>
+
+            {/* Heart/Wishlist Icon */}
+            <Link to="/wishlist" className="relative">
+              <svg className={`w-6 h-6 transition-colors duration-300 ${
+                isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900'
+              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+              </svg>
+            </Link>
+
             {/* Cart Icon */}
             <Link to="/cart" className="relative">
               <svg className={`w-6 h-6 transition-colors duration-300 ${
@@ -105,15 +118,6 @@ function Navbar() {
               <span className="absolute -top-2 -right-2 text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center bg-black text-white shadow-sm">
                 0
               </span>
-            </Link>
-
-            {/* Wishlist Icon */}
-            <Link to="/wishlist" className="relative">
-              <svg className={`w-6 h-6 transition-colors duration-300 ${
-                isDarkMode ? 'text-white/70 hover:text-white' : 'text-gray-700 hover:text-gray-900'
-              }`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
             </Link>
 
             {/* Mobile menu button */}

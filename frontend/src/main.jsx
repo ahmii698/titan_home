@@ -10,6 +10,7 @@ import OrderTracking from './pages/OrderTracking';
 import Auth from './pages/Auth';
 import Cart from './pages/Cart';
 import Wishlist from './pages/Wishlist';
+import ProductDetail from './pages/ProductDetail';
 import './index.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,6 +26,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/auth" element={<Auth />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/wishlist" element={<Wishlist />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

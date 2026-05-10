@@ -4,14 +4,14 @@ import Footer from '../components/common/Footer';
 import ProductCard from '../components/common/ProductCard';
 
 const allProducts = [
-  { id: 1, name: 'Tungsten Carbide Ring', price: 299, oldPrice: 499, image: '/images/122.webp', rating: 4.8, category: 'rings' },
-  { id: 2, name: "Men's Silver Chain", price: 199, oldPrice: 349, image: '/images/121.webp', rating: 4.6, category: 'chains' },
-  { id: 3, name: 'Leather Cuff Bracelet', price: 89, image: '/images/2.webp', rating: 4.5, category: 'bracelets' },
-  { id: 4, name: 'Stainless Steel Watch', price: 599, oldPrice: 899, image: '/images/1.webp', rating: 4.9, category: 'watches' },
-  { id: 5, name: 'Carbon Fiber Ring', price: 399, oldPrice: 599, image: '/images/6.jpg', rating: 4.7, category: 'rings' },
-  { id: 6, name: 'Gold Plated Dog Tag', price: 149, image: '/images/4.jpg', rating: 4.7, category: 'chains' },
-  { id: 7, name: 'Obsidian Stone Ring', price: 249, oldPrice: 399, image: '/images/3.jpg', rating: 4.8, category: 'rings' },
-  { id: 8, name: 'Chronograph Watch', price: 799, oldPrice: 1299, image: '/images/76.jpg', rating: 4.9, category: 'watches' },
+  { id: 1, name: 'Tungsten Carbide Ring', price: 299, oldPrice: 499, image: '/images/122.webp', hoverImage: '/images/122-closeup.jpg', rating: 4.8, category: 'rings' },
+  { id: 2, name: "Men's Silver Chain", price: 199, oldPrice: 349, image: '/images/121.webp', hoverImage: '/images/121-closeup.jpg', rating: 4.6, category: 'chains' },
+  { id: 3, name: 'Leather Cuff Bracelet', price: 89, image: '/images/2.webp', hoverImage: '/images/2-closeup.jpg', rating: 4.5, category: 'bracelets' },
+  { id: 4, name: 'Stainless Steel Watch', price: 599, oldPrice: 899, image: '/images/1.webp', hoverImage: '/images/1-closeup.jpg', rating: 4.9, category: 'watches' },
+  { id: 5, name: 'Carbon Fiber Ring', price: 399, oldPrice: 599, image: '/images/6.jpg', hoverImage: '/images/6-closeup.jpg', rating: 4.7, category: 'rings' },
+  { id: 6, name: 'Gold Plated Dog Tag', price: 149, image: '/images/4.jpg', hoverImage: '/images/4-closeup.jpg', rating: 4.7, category: 'chains' },
+  { id: 7, name: 'Obsidian Stone Ring', price: 249, oldPrice: 399, image: '/images/3.jpg', hoverImage: '/images/3-closeup.jpg', rating: 4.8, category: 'rings' },
+  { id: 8, name: 'Chronograph Watch', price: 799, oldPrice: 1299, image: '/images/76.jpg', hoverImage: '/images/76-closeup.jpg', rating: 4.9, category: 'watches' },
 ];
 
 const categories = [
@@ -121,22 +121,23 @@ function Shop() {
         )}
       </section>
 
-     <section className="py-20 px-4 border-t border-white/10">
-  <div className="max-w-3xl mx-auto text-center">
-    <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join Our Newsletter</h2>
-    <p className="text-white/50 mb-8">Subscribe to get exclusive offers and updates</p>
-    <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-      <input
-        type="email"
-        placeholder="Your email address"
-        className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-black placeholder-gray-500 focus:outline-none focus:border-white/50"
-      />
-      <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
-        Subscribe
-      </button>
-    </form>
-  </div>
-</section>
+      {/* Newsletter */}
+      <section className="py-20 px-4 border-t border-white/10">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Join Our Newsletter</h2>
+          <p className="text-white/50 mb-8">Subscribe to get exclusive offers and updates</p>
+          <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input
+              type="email"
+              placeholder="Your email address"
+              className="flex-1 bg-white/5 border border-white/20 rounded-xl px-5 py-3 text-black placeholder-gray-500 focus:outline-none focus:border-white/50"
+            />
+            <button className="px-8 py-3 bg-white text-black rounded-xl font-semibold hover:bg-gray-200 transition-all hover:scale-105">
+              Subscribe
+            </button>
+          </form>
+        </div>
+      </section>
 
       <Footer />
     </div>
